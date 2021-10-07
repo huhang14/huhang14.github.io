@@ -4,11 +4,37 @@
   
     
     <entry>
+      <title>CNN1-4</title>
+      <link href="/2021/10/07/CNN1-4/"/>
+      <url>/2021/10/07/CNN1-4/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>CNN1-3</title>
+      <link href="/2021/10/07/CNN1-3/"/>
+      <url>/2021/10/07/CNN1-3/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>1.2 卷积运算和边缘检测示例</title>
       <link href="/2021/10/07/CNN1-2/"/>
       <url>/2021/10/07/CNN1-2/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h1 id="卷积运算"><a href="#卷积运算" class="headerlink" title="卷积运算"></a>卷积运算</h1><p>用一个正方形的过滤器（filter）对图像进行卷积运算。</p><ol><li>将3x3的卷积核覆盖到图像左上的3x3区域上，然后用元素乘法把对应位置的数字相乘，最后把得到的9个数相加，填在4x4的第一格。</li><li>3x3的卷积核从左到右，由上到下每次移动一格，重复以上操作。</li></ol><p><img src="https://i.loli.net/2021/10/07/7lfVWcq8y3MgsQz.png" alt="conv.png"></p><p>以上这个过程<br>在 Python 中，卷积用<code>conv_forward()</code>表示；<br>在 Tensorflow 中，卷积用<code>tf.nn.conv2d()</code>表示；<br>在 keras 中，卷积用<code>Conv2D()</code>表示。</p><h1 id="边缘检测"><a href="#边缘检测" class="headerlink" title="边缘检测"></a>边缘检测</h1><ul><li>垂直边缘检测</li><li>水平边缘检测</li></ul><p><img src="https://i.loli.net/2021/10/07/oiF1jW7CBYpt6SX.png" alt="边缘检测.png"></p><h1 id="垂直边缘检测例子"><a href="#垂直边缘检测例子" class="headerlink" title="垂直边缘检测例子"></a>垂直边缘检测例子</h1><ul><li>最左边的矩阵是图像，左边亮，右边暗</li><li>利用中间的3x3滤波器进行卷积运算</li><li>得到最右边矩阵，把它看作图像就是一条白色的柱</li></ul><p><img src="https://i.loli.net/2021/10/07/vNJ6qr91HkKb7Rx.png" alt="垂直边缘检测例子.png"></p>]]></content>
       
       
       <categories>
