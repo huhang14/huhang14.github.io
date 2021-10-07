@@ -146,10 +146,16 @@
       
       <categories>
           
-          <category> 吴恩达CNN </category>
+          <category> 深度学习 </category>
           
       </categories>
       
+      
+        <tags>
+            
+            <tag> 吴恩达CNN </tag>
+            
+        </tags>
       
     </entry>
     
