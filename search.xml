@@ -5,8 +5,8 @@
     
     <entry>
       <title>3.8 Anchor Boxes</title>
-      <link href="/blog/2021/10/07/CNN3-8/"/>
-      <url>/blog/2021/10/07/CNN3-8/</url>
+      <link href="/2021/10/07/CNN3-8/"/>
+      <url>/2021/10/07/CNN3-8/</url>
       
         <content type="html"><![CDATA[<p>如何让同一个grid cell检测多个物体？<br>    - 如果一个grid cell出现2个物体的中心点，怎么办？<br>    - 使用Anchor Boxes</p><p>图片中车与人的中心点重合<br>    - 2个中心点都在底层中间的grid cell里<br>    - y中的8个参数（pc, bx, by, bw, bh, c1, c2, c3），针对的一个类别的物体<br>    - 2个物体的边界框相差很大，一个横长方形，一个竖长方形<br>    - 改变target y的构造，叠加两个物体的8个值</p><p>如何判断到底哪一个anchor box才是最合适的？<br>选择IoU值最高的，重合度最高的</p><p><img src="https://i.loli.net/2021/10/07/cNdU2wLx5BEpkIe.png" alt="Anchor Boxes.png"></p><p>两种少见的情况无法解决：<br>    - 一个grid cell里面有三个物体，但只有两个anchor box<br>    - 一个grid cell里面有两个物体，但2个anchor box重合</p><p>如何设置anchor box？<br>    - 人工预先设计几个尺寸的形状来覆盖所有要识别的物体<br>K-means算法，自动生成anchor box尺寸覆盖所有需要识别的物体</p>]]></content>
       
@@ -24,8 +24,8 @@
     
     <entry>
       <title>3.7 非极大值抑制Non-max suppression</title>
-      <link href="/blog/2021/09/28/CNN3-7/"/>
-      <url>/blog/2021/09/28/CNN3-7/</url>
+      <link href="/2021/09/28/CNN3-7/"/>
+      <url>/2021/09/28/CNN3-7/</url>
       
         <content type="html"><![CDATA[<p>输出有最大可能性的预测bounding box，确保每个目标只有一个结果</p><p>示例<br>    - 19x19grid<br>    - 车辆的中心点只会在一个grid cell内<br>    - 但每个grid cell都有权利或可能性认为自己拥有中心点<br>    - 也就是有多个bouding box</p><p>具体算法<br>    - 筛选掉pc≤0.6的<br>    - 在剩余的boxes中（循环）：<br>        ○ 选出最大pc的输出结果作为prediction<br>        ○ 筛选掉剩余框中，IoU≥0.5的</p><p>如果有n个类别分别使用n次非极大值抑制</p><p><img src="https://i.loli.net/2021/09/28/LkqmWnYJIvgxGUy.png" alt="Non-max suppression.png"></p>]]></content>
       
@@ -43,8 +43,8 @@
     
     <entry>
       <title>3.6 交并比loU函数</title>
-      <link href="/blog/2021/09/28/CNN3-6/"/>
-      <url>/blog/2021/09/28/CNN3-6/</url>
+      <link href="/2021/09/28/CNN3-6/"/>
+      <url>/2021/09/28/CNN3-6/</url>
       
         <content type="html"><![CDATA[<p>评估object detection<br>    - 模型计算出来的bounding box离target bounding box的差距有多远<br>    - 评估算法=IoU =  Intersection over union algo<br>    - 该算法将localization转化为accuracy来评估localization效果的好坏<br>    - 两个边界框的交集除以并集的比率<br>    - IoU值越高，output里target的bounding box越接近</p><p>0.5经常被作为一个临界值</p><p><img src="https://i.loli.net/2021/09/28/gR6iMYlytqsOHaV.png" alt="IoU.png"></p>]]></content>
       
@@ -62,8 +62,8 @@
     
     <entry>
       <title>3.5 bounding box prediction</title>
-      <link href="/blog/2021/09/28/CNN3-5/"/>
-      <url>/blog/2021/09/28/CNN3-5/</url>
+      <link href="/2021/09/28/CNN3-5/"/>
+      <url>/2021/09/28/CNN3-5/</url>
       
         <content type="html"><![CDATA[<p>bounding box的问题<br>    - 当前的处理方式是给定了窗口在图片上滑动<br>    - 这些窗口无法精准地框住图中的车辆</p><p>论文 you only look once 2015</p><p>YOLO algo<br>    - 能提供更准确的方框<br>    - 这里简化3x3 grid(实例：19x19 grid)<br>    - 9个图 -&gt;classification &amp; localization模型<br>    - target or label结构<br>    - input tensor 100x100x3<br>    - 中间是CNN模型，卷积，池化…使之逐渐映射到output tensor 3x3x8<br>    - 反向传播训练神经网络<br>    - 这里的模型能准确构建boundingbox，而不是规则但不精准的窗口<br>    - 19x19 grid的好处，2个物体出现在同一个grid cell的概率小了很多<br>    - 计算更高效：一个卷积网络实现的，不需要3x3=9次<br>    - 速度快，甚至能做实时处理</p><p><img src="https://i.loli.net/2021/09/28/xGDsFbt1jQViyhm.png" alt="YOLO.png"></p><p>细节：如何决定的 边界框参数bx, by, bw, bh<br>    - 从grid cell出发<br>    - 左上角（0，0）右下角（1，1）<br>    - bx, by必须在[0, 1]之间<br>    - bw, bh可以大于1</p><p><img src="https://i.loli.net/2021/09/28/WRQBmSjHkoXPIU3.png" alt=" specify bounding box.png"></p>]]></content>
       
@@ -81,8 +81,8 @@
     
     <entry>
       <title>3.4 卷积滑动窗口预测</title>
-      <link href="/blog/2021/09/28/CNN3-4/"/>
-      <url>/blog/2021/09/28/CNN3-4/</url>
+      <link href="/2021/09/28/CNN3-4/"/>
+      <url>/2021/09/28/CNN3-4/</url>
       
         <content type="html"><![CDATA[<p>目的：<br>    - sliding window with conv net<br>    - 解决上节设计的计算成本高，效率低的问题<br>    - 解决方案第一步：最后三层FC层转化</p><p>如何将第一个FC层转化为conv层？<br>    - 替换成一个5x5x16 filter400个<br>    - 每个filter最input tensor只能扫描一次，生成一个值<br>    - 400个filter，生成400个值<br>    - 因为是conv计算，所以生成不是vector(400,) 而是tensor(1, 1, 400)<br>如何将第二个FC转化为conv层？<br>    - 替换成一个1x1x400 filter400个<br>    - filter=1x1x400 channel保持一致<br>    - filter个数为400，为了对应FC neurons个数</p><p><img src="https://i.loli.net/2021/09/28/bA3EDWdrKSuM6y4.png" alt="全连接层转化为卷积层.png"></p><p>变形好的CNN模型<br>    - 这里是4元分类<br>    - 背景 car motorcycle 行人<br>测试数据<br>    - 16x16x3 shape<br>    - 一个测试样本要截取出4张14x14x3尺寸的图片样本<br>上节课算法<br>    - 14x14x3的窗口分别通过conv模型计算四次<br>    - 分别判断4张图里是否有任何一类物体<br>    - 计算成本高，训练低效<br>算法的突破（结果）<br>    - 发现4次计算中有大量重复内容<br>    - 只用一张测试样本原图16x16x3<br>    - 同样的weights, filter size, 数量<br>    - 一次计算，完成上面的4次计算结果<br>    - 不同的是，layer output size变大了<br>    - 16x16x3 -&gt;4截图-&gt;2x2<br>    - 28x28x3-&gt;64截图-&gt;8x8<br>    - 中间层的output shape 可以有现成公式推导计算<br>总结<br>    - 不在输入图像的子图像上分别进行前向传播<br>    - 而是合并成一个前向传播运算，利用共同区域共享了大量运算</p><p><img src="https://i.loli.net/2021/09/28/BVUEon9b7c8Luh6.png" alt="sliding window with conv net.png"></p>]]></content>
       
@@ -100,8 +100,8 @@
     
     <entry>
       <title>3.3 object detection</title>
-      <link href="/blog/2021/09/27/CNN3-3/"/>
-      <url>/blog/2021/09/27/CNN3-3/</url>
+      <link href="/2021/09/27/CNN3-3/"/>
+      <url>/2021/09/27/CNN3-3/</url>
       
         <content type="html"><![CDATA[<p>car detection<br>    1. classification model<br>    - car closely cropped image, label<br>    - cnn model for car classification<br>    2. 滑动窗口检测<br>    - sliding window<br>        ○ filter<br>        ○ stride<br>    - window_image -&gt;model<br>        ○ 0, 1 car or not<br>    - 设计多尺寸sliding windows<br>        ○ 确保能找到物品<br>        ○ filter size<br>        ○ stride size</p><p>问题<br>每个filter是一个CNN模型<br>    - 计算远大于简单的线性运算<br>filter, stride小而细致<br>    - 一个样本，扫描次数太多<br>    - 计算成本太高，速度太慢<br>filter大，stride大<br>    - 一个样本，扫描次数下降了<br>但精准度下降</p><p><img src="https://i.loli.net/2021/09/27/DO5cxm4obn3JTSM.png" alt="sliding windows detection.png"></p>]]></content>
       
@@ -119,8 +119,8 @@
     
     <entry>
       <title>3.2 特征点检测 landmark detection</title>
-      <link href="/blog/2021/09/27/CNN3-2/"/>
-      <url>/blog/2021/09/27/CNN3-2/</url>
+      <link href="/2021/09/27/CNN3-2/"/>
+      <url>/2021/09/27/CNN3-2/</url>
       
         <content type="html"><![CDATA[<p>什么是 landmark detection<br>localization:<br>    - bounding box: 4 values<br>    - centre, width, height</p><p>更细致的localization需求<br>    - 识别人脸，人体态<br>    - 远超出centre, width, height<br>    - 需要更多的关键点识别组合</p><p>花费大量人力标注，顺序不能乱</p><p><img src="https://i.loli.net/2021/09/27/1R6qbN4nYXfCPpl.png" alt="landmark detection.png"></p>]]></content>
       
@@ -138,8 +138,8 @@
     
     <entry>
       <title>3.1 目标定位 object localization</title>
-      <link href="/blog/2021/09/27/CNN3-1/"/>
-      <url>/blog/2021/09/27/CNN3-1/</url>
+      <link href="/2021/09/27/CNN3-1/"/>
+      <url>/2021/09/27/CNN3-1/</url>
       
         <content type="html"><![CDATA[<p>Image classification：只识别图中一个物品的类别<br>Classification with localization：只识别图中一个物品的类别，给物体边沿画一个方盒子<br>Detection：识别图中多个物品（甚至多类别），给每个物品边沿画一个方盒子</p><p><img src="https://i.loli.net/2021/09/27/5OnepIxQoNWHAZu.png" alt="localization and detection"></p><p>Classification<br>    - Input<br>    - CNN（modle）<br>    - label（类别，比如1-4）<br>    - output（softmax输出1-4不同类别的概率）</p><p>localization<br>    - supervised learning（有监督学习）<br>    - label<br>    ○ 1-4 classes<br>    ○ location（中心点、宽、高）：bx、by、bw、bh</p><p><img src="https://i.loli.net/2021/09/27/U2PLW8CJwlFuxr4.png" alt="Classification with localization"></p><p>Defining the target label y<br>target y：vector of 8 values<br>    - pc：background or objects<br>    - bx、by、bw、bh：box location<br>    - c1，c2，c3：0 or 1（类别）</p><p>example:<br>x: car<br>y: 1, bx, by, bw, bh, 0, 1, 0</p><p>x: scene<br>y: 0, ?, ?, ?, …</p><p>pc：先决条件，节省计算</p><p>Loss：squared error（均方差）<br>L = （y hat - y）的平方</p><p>Log-likelihood Loss:<br>    - c1, c2, c3<br>squared error<br>    - bx, by, bw, bh<br>logistic regression<br>    - pc</p><p><img src="https://i.loli.net/2021/09/27/aIWwhvUSAmCDdZe.png" alt="Defining the target label y.png"></p>]]></content>
       
