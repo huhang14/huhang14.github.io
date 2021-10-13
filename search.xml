@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>opencv imwrite函数如何保存16位的图片</title>
+      <link href="/2021/10/12/project1/"/>
+      <url>/2021/10/12/project1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h1><ol><li>opencv的imwrite函数保存图像。输入参数必须为int类型。</li><li>imwrite函数在保存为不同深度格式时候的图像类型支持说明如下：<ul><li>8位的图像(CV_8U)，支持png/jpg/bmp/webp等各种常见图像格式</li><li>16位的图像(CV_16U)，支持png/jpeg2000/TIFF格式</li><li>32位的图像(CV_32F)，支持PFM/TIFF/OpenEXR/TIFF/HDR</li></ul></li></ol><h1 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h1><ol><li>nii格式转成图片，进行预处理，再转化为数组保存成npy文件。</li><li>npy的dtype是uint8。</li></ol><h1 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h1><p>拿到unint16的npy文件。</p><h1 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h1><p>调试了几次发现用<code>cv2.imwrite</code>保存图片之后，位深度就变成了8<br>以下是原来的代码</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">src_kineryimg = np.clip(src_kineryimg, 0, 255).astype(&#x27;uint8&#x27;)    # 修改成uint16</span><br><span class="line">cv2.imwrite(path + &quot;\\&quot; + str(z) + &quot;.bmp&quot;, src_kineryimg[z])  # 这里不能用bmp格式了，我换成了png</span><br></pre></td></tr></table></figure><p>然后把图像换成<code>.png</code>格式的保存成功了，转成npy也是uint16格式的<br><img src="https://i.loli.net/2021/10/12/93VnvNHmPoJiz6C.png" alt="结果图.png"></p><p>位数是没毛病了，图片全黑了<br><img src="https://i.loli.net/2021/10/12/rCFghXBycsLTRkw.png" alt="怎么读个图片也这么多事儿.png"></p><p>但是把图片都转成<code>.bmp</code>格式的又正常显示了，说明图像信息没丢。</p><blockquote><p>使用一个普通的图像浏览器来打开一个16位图像，它通常是完全黑暗的，因为他们只支持正确显示8位图像。</p></blockquote><p><img src="https://i.loli.net/2021/10/13/5Ks1RDqxCNkUmFo.png" alt="图像又正常显示了.png"></p><p>在图片转成的npy的过程中需要用到<code>cv2.imread</code>，在第二个参数的位置一定要加上<code>cv2.IMREAD_ANYDEPTH</code>，否则会按照8位读取。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">image = cv2.imread(srcpath + str(i) + &quot;/&quot; + str(index) + &quot;.png&quot;, cv2.IMREAD_GRAYSCALE|cv2.IMREAD_ANYDEPTH)</span><br></pre></td></tr></table></figure><p>最后直接用<code>np.save</code>转成npy格式的文件，检查一下，数据类型是uint16了。<br><img src="https://i.loli.net/2021/10/13/Thwo9WqQKNvbzZY.png" alt="大功告成.png"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 项目问题记录 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> opencv </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>1.4 Padding</title>
       <link href="/2021/10/07/CNN1-4/"/>
       <url>/2021/10/07/CNN1-4/</url>
